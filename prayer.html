@@ -2,86 +2,147 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Prayer Times</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="https://cdn.jsdelivr.net/npm/adhan@4.4.0/lib/Adhan.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f9f9f9;
+      text-align: center;
+      padding: 20px;
+    }
+    h2 {
+      color: #14532d;
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+    #live-clock {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #1e3a8a;
+      margin-bottom: 25px;
+    }
+    .prayer-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .prayer-card {
+      background: white;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transition: transform 0.2s ease-in-out;
+      border-top: 5px solid #15803d;
+    }
+    .prayer-card:hover {
+      transform: translateY(-5px);
+    }
+    .prayer-name {
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #065f46;
+    }
+    .prayer-time {
+      font-size: 1.2rem;
+      margin: 10px 0;
+      color: #333;
+    }
+    .countdown {
+      font-size: 1.1rem;
+      color: #b45309;
+      font-weight: 600;
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <h1>🕌 Prayer Times – Masjid Ibrahim</h1>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="prayer.html">Prayer Times</a>
-      <a href="contact.html">Contact</a>
-    </nav>
-  </header>
 
-  <main>
-    <div class="prayer-timings-container">
-      <h2>Daily Prayer Times</h2>
-      <div id="current-time">⏰ Current Time: --:--</div>
-      <ul class="prayer-list" id="prayer-timings"></ul>
-      <div id="next-prayer">➡️ Next Prayer: --</div>
+  <h2>🕌 Today's Prayer Times (Lewis Center, OH)</h2>
+  <div id="live-clock">--:--:--</div>
+
+  <div class="prayer-container">
+    <div class="prayer-card">
+      <div class="prayer-name">Fajr</div>
+      <div class="prayer-time" id="Fajr-time">--:--</div>
+      <div class="countdown" id="Fajr-countdown">Loading...</div>
     </div>
-  </main>
-
-  <footer>
-    <p>© 2025 My Website</p>
-  </footer>
+    <div class="prayer-card">
+      <div class="prayer-name">Dhuhr</div>
+      <div class="prayer-time" id="Dhuhr-time">--:--</div>
+      <div class="countdown" id="Dhuhr-countdown">Loading...</div>
+    </div>
+    <div class="prayer-card">
+      <div class="prayer-name">Asr</div>
+      <div class="prayer-time" id="Asr-time">--:--</div>
+      <div class="countdown" id="Asr-countdown">Loading...</div>
+    </div>
+    <div class="prayer-card">
+      <div class="prayer-name">Maghrib</div>
+      <div class="prayer-time" id="Maghrib-time">--:--</div>
+      <div class="countdown" id="Maghrib-countdown">Loading...</div>
+    </div>
+    <div class="prayer-card">
+      <div class="prayer-name">Isha</div>
+      <div class="prayer-time" id="Isha-time">--:--</div>
+      <div class="countdown" id="Isha-countdown">Loading...</div>
+    </div>
+  </div>
 
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      try {
-        const coordinates = new adhan.Coordinates(40.1595, -83.0208);
-        const params = adhan.CalculationMethod.ISNA();
-        params.madhab = adhan.Madhab.Shafi;
-        const date = new Date();
-        const prayerTimes = new adhan.PrayerTimes(coordinates, date, params);
+    // Live clock
+    function updateClock() {
+      const now = new Date();
+      const options = { hour: "2-digit", minute: "2-digit", second: "2-digit" };
+      document.getElementById("live-clock").textContent =
+        now.toLocaleTimeString("en-US", options);
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
 
-        const prayerNames = {
-          fajr: "Fajr",
-          sunrise: "Sunrise",
-          dhuhr: "Dhuhr",
-          asr: "Asr",
-          maghrib: "Maghrib",
-          isha: "Isha"
-        };
+    // Prayer times + countdown
+    async function loadPrayerTimes() {
+      const res = await fetch("https://api.aladhan.com/v1/timingsByCity?city=Lewis Center&state=Ohio&country=USA&method=2");
+      const data = await res.json();
+      const timings = data.data.timings;
 
-        function formatTime(time) {
-          return time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        }
+      const prayers = ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"];
 
-        let html = "";
-        for (let key in prayerNames) {
-          html += `<li><span>${prayerNames[key]}</span><span>${formatTime(prayerTimes[key])}</span></li>`;
-        }
-        document.getElementById("prayer-timings").innerHTML = html;
+      // Fill in prayer times
+      prayers.forEach(p => {
+        document.getElementById(`${p}-time`).textContent = timings[p];
+      });
 
-        function updateClock() {
-          const now = new Date();
-          document.getElementById("current-time").innerText = "⏰ Current Time: " + now.toLocaleTimeString();
+      // Countdown updater
+      function updateCountdowns() {
+        const now = new Date();
+        prayers.forEach(p => {
+          const time = timings[p];
+          let [hh, mm] = time.split(":");
+          hh = parseInt(hh);
+          mm = parseInt(mm);
 
-          const next = prayerTimes.nextPrayer(now);
-          if (next) {
-            const time = prayerTimes.timeForPrayer(next);
-            const diff = time - now;
-            const hrs = Math.floor(diff / 1000 / 60 / 60);
-            const mins = Math.floor((diff / 1000 / 60) % 60);
-            const secs = Math.floor((diff / 1000) % 60);
-            document.getElementById("next-prayer").innerText = 
-              `➡️ Next: ${prayerNames[next]} in ${hrs}h ${mins}m ${secs}s`;
+          let prayerDate = new Date(now.toDateString() + " " + time);
+          if (prayerDate < now) {
+            prayerDate.setDate(prayerDate.getDate() + 1);
           }
-        }
 
-        updateClock();
-        setInterval(updateClock, 1000);
+          let diff = prayerDate - now;
+          let hrs = Math.floor(diff / (1000 * 60 * 60));
+          let mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+          let secs = Math.floor((diff % (1000 * 60)) / 1000);
 
-      } catch (err) {
-        console.error("Prayer time error:", err);
+          document.getElementById(`${p}-countdown`).textContent =
+            `${hrs}h ${mins}m ${secs}s left`;
+        });
       }
-    });
+
+      setInterval(updateCountdowns, 1000);
+      updateCountdowns();
+    }
+
+    loadPrayerTimes();
   </script>
+
 </body>
 </html>
