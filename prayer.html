@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prayer Times</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/adhan@4.4.0/lib/Adhan.js"></script>
+</head>
+<body>
+  <header>
+    <h1>🕌 Prayer Times – Masjid Ibrahim</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="prayer.html">Prayer Times</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="prayer-timings-container">
+      <h2>Daily Prayer Times</h2>
+      <div id="current-time">⏰ Current Time: --:--</div>
+      <ul class="prayer-list" id="prayer-timings"></ul>
+      <div id="next-prayer">➡️ Next Prayer: --</div>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2025 My Website</p>
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      try {
+        const coordinates = new adhan.Coordinates(40.1595, -83.0208);
+        const params = adhan.CalculationMethod.ISNA();
+        params.madhab = adhan.Madhab.Shafi;
+        const date = new Date();
+        const prayerTimes = new adhan.PrayerTimes(coordinates, date, params);
+
+        const prayerNames = {
+          fajr: "Fajr",
+          sunrise: "Sunrise",
+          dhuhr: "Dhuhr",
+          asr: "Asr",
+          maghrib: "Maghrib",
+          isha: "Isha"
+        };
+
+        function formatTime(time) {
+          return time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
+
+        let html = "";
+        for (let key in prayerNames) {
+          html += `<li><span>${prayerNames[key]}</span><span>${formatTime(prayerTimes[key])}</span></li>`;
+        }
+        document.getElementById("prayer-timings").innerHTML = html;
+
+        function updateClock() {
+          const now = new Date();
+          document.getElementById("current-time").innerText = "⏰ Current Time: " + now.toLocaleTimeString();
+
+          const next = prayerTimes.nextPrayer(now);
+          if (next) {
+            const time = prayerTimes.timeForPrayer(next);
+            const diff = time - now;
+            const hrs = Math.floor(diff / 1000 / 60 / 60);
+            const mins = Math.floor((diff / 1000 / 60) % 60);
+            const secs = Math.floor((diff / 1000) % 60);
+            document.getElementById("next-prayer").innerText = 
+              `➡️ Next: ${prayerNames[next]} in ${hrs}h ${mins}m ${secs}s`;
+          }
+        }
+
+        updateClock();
+        setInterval(updateClock, 1000);
+
+      } catch (err) {
+        console.error("Prayer time error:", err);
+      }
+    });
+  </script>
+</body>
+</html>
