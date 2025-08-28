@@ -3,27 +3,105 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Website</title>
+  <title>Masjid Ibrahim Community Center</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      scroll-behavior: smooth;
+    }
+    header {
+      position: relative;
+      height: 100vh;
+      background: url('masjid.jpg') no-repeat center center/cover;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+    header h1 {
+      font-size: 3rem;
+      background: rgba(0,0,0,0.5);
+      padding: 20px;
+      border-radius: 10px;
+    }
+    nav {
+      background: #333;
+      padding: 10px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    nav a {
+      color: white;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    section {
+      padding: 60px 20px;
+      text-align: center;
+    }
+    .events {
+      background: #f5f5f5;
+    }
+    footer {
+      background: #333;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
+
+  <!-- Hero Section -->
   <header>
-    <h1>Welcome to My Website</h1>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="prayer.html">Prayer Times</a>
-      <a href="contact.html">Contact</a>
-    </nav>
+    <h1>Masjid Ibrahim Community Center</h1>
   </header>
 
-  <main>
-    <h2>Home Page</h2>
-    <p>This is my first live website on GitHub Pages!</p>
-  </main>
+  <!-- Navigation -->
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="ramadan.html">Ramadan Calendar</a>
+    <a href="prayer.html">Prayer Times</a>
+    <a href="programs.html">Programs</a>
+    <a href="contact.html">Contact Us</a>
+  </nav>
 
+  <!-- About Section -->
+  <section id="about">
+    <h2>Welcome to Our Community</h2>
+    <p>Masjid Ibrahim is a welcoming place of worship and community for all Muslims. 
+       We provide daily prayers, educational programs, youth activities, and community services.</p>
+  </section>
+
+  <!-- Events Section -->
+  <section class="events">
+    <h2>Live Updates & Events</h2>
+    <p>🕌 Join us for our daily congregational prayers.</p>
+    <p>🌙 Ramadan programs and Taraweeh prayers will be announced soon.</p>
+    <p>📅 Weekly halaqas and community dinners every Friday.</p>
+  </section>
+
+  <!-- Services Section -->
+  <section>
+    <h2>Our Services</h2>
+    <p>📖 Quran Classes | 🎓 Youth Programs | 💼 Community Support</p>
+  </section>
+
+  <!-- Footer -->
   <footer>
-    <p>© 2025 My Website</p>
+    <p>© 2025 Masjid Ibrahim Community Center</p>
   </footer>
+
 </body>
 </html>
