@@ -2,101 +2,87 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Ramadan Calendar – Masjid Ibrahim</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ramadan Calendar</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0; padding: 0;
-      background: #f0fdf4;
-      color: #333;
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
     }
-    header {
-      background: #14532d;
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #2c3e50;
       color: white;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    tr:hover {
+      background-color: #ddd;
+    }
+
+    h2 {
       text-align: center;
-      padding: 40px 20px;
-    }
-    header h1 {
-      margin: 0;
-    }
-    nav {
-      background: #333;
-      padding: 10px;
-      text-align: center;
-    }
-    nav a {
-      color: white;
-      margin: 0 10px;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    section {
-      padding: 40px 20px;
-      max-width: 1000px;
-      margin: 0 auto;
-    }
-    .calendar {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 4px;
-    }
-    .calendar-day {
-      background: white;
-      border: 1px solid #d1fae5;
-      border-radius: 6px;
-      padding: 10px;
-      text-align: center;
-      min-height: 80px;
-    }
-    .calendar-day h4 {
-      margin: 0 0 5px;
-      font-size: 1rem;
-      color: #065f46;
-    }
-    .day-content {
-      font-size: 0.9rem;
-      color: #555;
-    }
-    .highlight {
-      background: #fde68a;
-    }
-    footer {
-      background: #14532d;
-      color: white;
-      text-align: center;
-      padding: 20px;
-      margin-top: 40px;
+      margin-top: 20px;
     }
   </style>
 </head>
 <body>
-
   <header>
-    <h1>Ramadan 1446 / 2025</h1>
+    <h1>Our Masjid</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="calendar.html">Ramadan Calendar</a>
+    </nav>
   </header>
 
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="ramadan.html">Ramadan Calendar</a>
-    <a href="prayer.html">Prayer Times</a>
-  </nav>
-
-  <section>
-    <div class="calendar">
-      <!-- Example for first 10 days; extend similarly -->
-      <div class="calendar-day"><h4>1 Ramadan</h4><div class="day-content">Fajr: 5:20 AM<br>Iftar: 6:40 PM</div></div>
-      <div class="calendar-day"><h4>2 Ramadan</h4><div class="day-content">---</div></div>
-      <div class="calendar-day"><h4>3 Ramadan</h4><div class="day-content"></div></div>
-      <!-- ... -->
-      <div class="calendar-day highlight"><h4>1 Shawwal</h4><div class="day-content">Eid-ul-Fitr</div></div>
-    </div>
-  </section>
+  <main>
+    <h2>Ramadan 2025 Calendar</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Day</th>
+          <th>Date</th>
+          <th>Sehri Ends</th>
+          <th>Iftar Time</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>1st March 2025</td>
+          <td>5:15 AM</td>
+          <td>6:45 PM</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>2nd March 2025</td>
+          <td>5:14 AM</td>
+          <td>6:46 PM</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>3rd March 2025</td>
+          <td>5:13 AM</td>
+          <td>6:47 PM</td>
+        </tr>
+        <!-- Keep adding rows for all Ramadan days -->
+      </tbody>
+    </table>
+  </main>
 
   <footer>
-    <p>© 2025 Masjid Ibrahim Community Center</p>
+    <p>&copy; 2025 Our Masjid. All Rights Reserved.</p>
   </footer>
-
 </body>
 </html>
